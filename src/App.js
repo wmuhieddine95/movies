@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {likeMovies, disLikeMovies, deleteMovies} from "./actions/movies";
+import {connect} from "react-redux"
+import MoviesList from "./components/movieslist"
+import { Button, Grid, GridRow, Menu } from 'semantic-ui-react';
+const mapStateToProps = (state) => {
+  return {
+    movies: state.movies.movies
+  };
+};
 
-function App() {
+function App({movies}) {
+  const [selection, setSelection] = useState(1);
+  const handleLeft = () => {
+    if(selection > 1)
+    setSelection(selection - 1);
+  }
+  const handleRight = () => {
+    if(selection<3)
+    setSelection(selection + 1);
+  } 
+
+  const [view, setView] = useState(4);
+  const handleClick1 = ()=> {
+      setView(4)
+  }
+  const handleClick2 = ()=> {
+      setView(8)
+  }
+  const handleClick3 = ()=> {
+      setView(12)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Menu>
+        <Menu.Item icon="Menu layout" onClick={handleClick1}>
+                4
+        </Menu.Item>
+        <Menu.Item icon="Menu layout" onClick={handleClick2}>
+                8
+        </Menu.Item>
+        <Menu.Item icon="Menu layout" onClick={handleClick3}>
+                12
+        </Menu.Item>      
+        
+    </Menu>
+
+      <MoviesList movies={movies} selection={selection > 0 ? (selection) : (0)} view={view > 4 ? (view) : (4) }/>
+      {/* deleteMovie={deleteMovies} likeMovie={likeMovies} disLikeMovie={disLikeMovies}/> */}
+      <Grid centered>
+        <GridRow>
+        <Button icon='angle left' onClick={handleLeft}/>
+        <Button icon='angle right' onClick={handleRight}/>
+        </GridRow>
+      </Grid>
     </div>
   );
 }
-
-export default App;
+export default connect(mapStateToProps , {likeMovies, deleteMovies, disLikeMovies})(App);
