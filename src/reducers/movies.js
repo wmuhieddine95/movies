@@ -104,7 +104,8 @@ export default function (state = initialState, action) {
               const movieToUpdate = state.movies.find(item => item.id === payload);
               movieToUpdate.likes++;
               const newmovies = state.movies.filter(item => { return item.id !== payload});
-              newmovies.push(movieToUpdate)
+              newmovies.push(movieToUpdate);
+              newmovies.sort((a, b) => a.id - b.id);
             return {
               ...state,
               movies: newmovies,
@@ -121,6 +122,7 @@ export default function (state = initialState, action) {
               movieToUpdate.dislikes--;
               const newmovies = state.movies.filter(item => { return item.id !== payload});
               newmovies.push(movieToUpdate)
+              newmovies.sort((a, b) => a.id - b.id);
             return {
               ...state,
               movies: newmovies,

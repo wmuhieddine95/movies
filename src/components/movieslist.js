@@ -19,7 +19,7 @@ const MoviesList = ({movies, selection, view, deleteMovies, likeMovies, disLikeM
         deleteMovies(movieId)
     }
     const list = movies.map((movie, index) => {
-            if(index < (selection*view)){
+            if(index < (selection*view) && index >= (selection*view)-view){
                 return(
                     <Grid.Column key={movie.id} width={4}>
                     <Card>
